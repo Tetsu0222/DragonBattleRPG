@@ -1,9 +1,12 @@
 package com.example.dragonbattlerpg.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.dragonbattlerpg.entity.Ally;
@@ -38,7 +41,7 @@ public class PublicController {
 		return mv;
 	}
 	
-	/*
+	
 	//バトルへ遷移
 	@GetMapping( "/battle" )
 	public ModelAndView battle( @RequestParam( name = "PLV1" ) Integer pid1 ,
@@ -51,41 +54,25 @@ public class PublicController {
 								@RequestParam( name = "MLV4" ) Integer mid4 ,
 								ModelAndView mv ) {
 		
-		mv.setViewName( BattleScreen );
-			
+		mv.setViewName( "battle" );
+		
 		//選択に応じたプレイアブルキャラクターのIdを格納
 		List<Integer> repositoryIdList = Stream.of( pid1 , pid2 , pid3 , pid4 )
 				.filter( s -> s > 0 )
 				.collect( Collectors.toList() );
-		
-		//生成プレイアブルキャラクターを格納するセットを生成
-		Set<AllyData> partySet = createCharacterSet.createPartySet( repositoryIdList );
 		
 		//選択に応じたエネミーキャラクターのIdを格納
 		List<Integer> repositoryEnemyIdList = Stream.of( mid1 , mid2 , mid3 , mid4 )
 				.filter( s -> s > 0 )
 				.collect( Collectors.toList() );
 		
-		//生成したエネミーキャラクターを格納するセットを生成
-		Set<MonsterData> monsterDataSet = createCharacterSet.createEnemySet( repositoryEnemyIdList );
 		
-		//グループ攻撃用の重複要素を整理したリスト生成（順番を維持したいためリストにて生成）
-		allyNameList  = createCharacterSet.getNameList().stream().distinct().toList();
-		enemyNameList = createCharacterSet.getNameListEnemy().stream().distinct().toList();
-	
-		//戦闘処理用のオブジェクトを生成
-		Battle battle = new Battle( partySet , monsterDataSet , allyNameList , enemyNameList );
-		
-		//戦闘処理をサポートするクラスを生成
-		battle.createSupport();
-		
-		//戦闘画面用のデータをセッションスコープに保存
-		session.setAttribute( BattleObject , battle );
-		
+			
 		return mv;
 	}
 	
 	
+	/*
 	//通常攻撃を選択
 	@GetMapping( "/attack/{key}" )
 	public ModelAndView attack( @PathVariable( name = keys ) int key ,
