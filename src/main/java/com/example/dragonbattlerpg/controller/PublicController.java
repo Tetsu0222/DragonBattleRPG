@@ -1,6 +1,8 @@
 package com.example.dragonbattlerpg.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -11,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.dragonbattlerpg.entity.Ally;
 import com.example.dragonbattlerpg.entity.Monster;
+import com.example.dragonbattlerpg.object.PlayerCharacter;
 import com.example.dragonbattlerpg.repository.AllyRepository;
 import com.example.dragonbattlerpg.repository.MonsterRepository;
 
@@ -23,6 +26,9 @@ public class PublicController {
 	//インジェクション
 	private final AllyRepository allyRepository;
 	private final MonsterRepository monsterRepository;
+	
+	
+	private final Map< Integer , PlayerCharacter > playerCharacterMap = new HashMap<>();
 	
 
 	//TOP画面に対応
@@ -56,16 +62,39 @@ public class PublicController {
 		
 		mv.setViewName( "battle" );
 		
+		Integer coordinatePlayerCharacterId = 0;
+		//Integer coordinateEnemyId = 4;
+		
 		//選択に応じたプレイアブルキャラクターのIdを格納
-		List<Integer> repositoryIdList = Stream.of( pid1 , pid2 , pid3 , pid4 )
+		List<Integer> repositoryPlayerCharacterIdList = Stream.of( pid1 , pid2 , pid3 , pid4 )
 				.filter( s -> s > 0 )
 				.collect( Collectors.toList() );
 		
+		/*
 		//選択に応じたエネミーキャラクターのIdを格納
 		List<Integer> repositoryEnemyIdList = Stream.of( mid1 , mid2 , mid3 , mid4 )
 				.filter( s -> s > 0 )
 				.collect( Collectors.toList() );
 		
+		*/
+		
+		for( Integer playerCharacterid : repositoryPlayerCharacterIdList ) {
+			
+			//プレイヤーの人数は4人まで
+			if( coordinatePlayerCharacterId > 3 ) {
+				throw new IllegalArgumentException();
+			}
+			
+			//リファクタリング要素 インスタンス生成はインターフェースを設ける。
+			//PlayerCharacterのコンストラクタはprivateへ改修予定
+			PlayerCharacter playerCharacter = new PlayerCharacter( allyRepository.findById( playerCharacterid ).orElseThrow() , coordinatePlayerCharacterId );
+			playerCharacterMap.put( coordinatePlayerCharacterId , playerCharacter );
+			
+			coordinatePlayerCharacterId++;
+			
+		}
+		
+		mv.addObject( "playerCharacterMap" , playerCharacterMap );
 		
 			
 		return mv;

@@ -10,6 +10,17 @@
 	
 
 	<body>
+		<!-- プレイヤーゾーン -->
+		<table border="1">
+			<tr>
+				<th>名前</th>
+			</tr>
+			<tr th:each="entry:${playerCharacterMap}">
+				<td>
+					<a th:text="${entry.value.name}"></a>
+				</td>
+			</tr>
+		</table>
 		
 	</body>
 
