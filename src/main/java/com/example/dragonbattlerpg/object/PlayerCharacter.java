@@ -4,16 +4,12 @@ import java.util.Random;
 
 import com.example.dragonbattlerpg.entity.Ally;
 
-import lombok.Data;
-
-@Data
 public class PlayerCharacter implements Characters{
 
 	private final Integer playerCharacterId;
 	private final MaxPlayerHitPoints MAX_HP;
 	private final String name;
 	private final Random random = new Random();
-	
 	
 	private CurrentPlayerHitPoints HP;
 	private CurrentPlayerOffensivePower ATK;
@@ -61,7 +57,6 @@ public class PlayerCharacter implements Characters{
 		}
 		
 		this.displayAction( resultDamage );
-		this.currentHP();
 	}
 	
 	public EnemyCharacter attak() {
@@ -106,18 +101,20 @@ public class PlayerCharacter implements Characters{
 		return this.survivalFlag;
 	}
 	
-	
-	public void currentHP() {
-		System.out.println( HP.toString( "現在のHPは" ));
-	}
-	
 	public void targetEnemyCharacterSelection( final EnemyCharacter targetCharacter ) {
 		this.targetEnemyCharacter = targetCharacter;
 	}
 	
 	public Integer getSPD() {
-		
 		return this.SPD.getTurnSPD( random );
+	}
+
+	public String getHP() {
+		return HP.toString();
+	}
+
+	public String getName() {
+		return name;
 	}
 	
 	

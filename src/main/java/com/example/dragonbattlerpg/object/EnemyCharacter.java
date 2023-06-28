@@ -58,7 +58,6 @@ public class EnemyCharacter implements Characters{
 		}
 		
 		this.displayAction( resultDamage );
-		this.currentHP();
 	}
 	
 	private PlayerCharacter attak() {
@@ -123,10 +122,7 @@ public class EnemyCharacter implements Characters{
 		return this.survivalFlag;
 	}
 	
-	public void currentHP() {
-		System.out.println( HP.toString( "現在のHPは" ));
-	}
-	
+
 	public void targetSelection( final List< PlayerCharacter > playerList ) {
 		this.playerList = playerList;
 		this.targetPlayerCharacter = playerList.get( random.nextInt( playerList.size() ));

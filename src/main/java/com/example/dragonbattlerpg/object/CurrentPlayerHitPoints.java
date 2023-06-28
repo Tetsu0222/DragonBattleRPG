@@ -5,8 +5,7 @@ public class CurrentPlayerHitPoints implements Points{
 	private final int SPECIFICATION_MIN_HP = 0;
 	private final int SPECIFICATION_MAX_HP = 999;
 	private final String IllegalArgumentException_MESSAGE = "不正な値です。";
-	private final String toStringMessage = "のダメージを受けた!!!";
-	
+
 	private final Integer CURRENT_HP;
 
 	
@@ -60,7 +59,7 @@ public class CurrentPlayerHitPoints implements Points{
 
 	
 	public String toString() {
-		return "は" + CURRENT_HP + toStringMessage;
+		return CURRENT_HP.toString();
 	
 	}
 	
@@ -69,9 +68,4 @@ public class CurrentPlayerHitPoints implements Points{
 		return CURRENT_HP <= SPECIFICATION_MIN_HP;
 	}
 	
-	public String toString( String message ) {
-		return message + CURRENT_HP;
-	
-	}
-
 }
